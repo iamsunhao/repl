@@ -9,14 +9,19 @@ import (
 
 func main() {
 	if len(os.Args) == 1 {
-		fmt.Println(`操作说明：
+		fmt.Println(
+`操作说明：
 将通过管道传入的标准输入进行替换。最多接受两个参数，多余的参数将被丢弃。
 		
-repl [正则表达式]
+repl [正则表达式] [substring]
 	将通过正则表达式匹配到的内容替换为空。
 		
-repl [正则表达式] substring
-	将通过正则表达式匹配到的内容替换为substring。`)
+repl [正则表达式] [substring]
+	将通过正则表达式匹配到的内容替换为[substring]。
+
+例：
+	echo "abc123" | repl "[a-z]" "0"
+	输出：000123` )
 		os.Exit(0)
 	}
 	substring := ""
