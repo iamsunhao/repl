@@ -27,7 +27,7 @@ func main() {
 	}
 	re, err := regexp.Compile(os.Args[1])
 	if err != nil {
-		fmt.Printf("%s 是一个非法的正则表达式。", os.Args[1])
+		fmt.Printf("%s 是一个非法的正则表达式。\n", os.Args[1])
 		os.Exit(1)
 	}
 
