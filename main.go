@@ -13,7 +13,6 @@ func main() {
 		fmt.Printf("通过给定的正则表达式和字符串，对标准输入的内容进行替换。\n")
 		fmt.Printf("说明：%s regexp string\n", os.Args[0])
 		fmt.Printf("  或：%s regexp\n", os.Args[0])
-        fmt.Printf("\n")
 		fmt.Printf("示例一：\n")
 		fmt.Printf("  标准输入：Hello,123\n")
 		fmt.Printf("  %s [0-9] A\n", os.Args[0])
