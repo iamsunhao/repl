@@ -10,6 +10,7 @@ import (
 
 func main() {
 	if len(os.Args) == 1 {
+		fmt.Printf("通过给定的正则表达式和字符串，对标准输入的内容进行替换。\n")
 		fmt.Printf("说明：%s regexp string\n", os.Args[0])
 		fmt.Printf("  或：%s regexp\n", os.Args[0])
         fmt.Printf("\n")
