@@ -33,12 +33,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	output := re.ReplaceAllLiteralString(GetStdio(), substring)
+	output := re.ReplaceAllLiteralString(getStdin(), substring)
 	fmt.Println(output)
 }
 
 // 将标准输入原样转为字符串
-func GetStdio() string {
+func getStdin() string {
 	var sb strings.Builder
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
