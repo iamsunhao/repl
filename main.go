@@ -44,6 +44,7 @@ func getStdin() string {
 	for scanner.Scan() {
 		sb.WriteString(scanner.Text() + "\n")
 	}
+    // 存在一个 bug ，当单行的内容超过缓冲区的限制，会 panic 。
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintln(os.Stderr, "读取标准输入出错：", err)
 	}
