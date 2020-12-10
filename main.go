@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"regexp"
 	"strings"
@@ -33,22 +34,43 @@ func main() {
 		os.Exit(1)
 	}
 
-	output := re.ReplaceAllLiteralString(getStdin(), substring)
+	output := re.ReplaceAllLiteralString(stdin2string(), substring)
 	fmt.Println(output)
 }
 
-// 将标准输入原样转为字符串
-func getStdin() string {
+// stdin2string 将标准输入转为字符串（支持多行，支持超长的单行）
+func stdin2string() string {
 	var sb strings.Builder
-	scanner := bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		sb.WriteString(scanner.Text() + "\n")
+	buff := bufio.NewReader(os.Stdin)
+
+	for {
+		line, isPrefix, err := buff.ReadLine()
+		// 如果读取到文件结束符，则跳出循环
+		if err == io.EOF {
+			break
+		}
+		//  读取到错误则直接退出程序
+		if err != nil {
+			fmt.Printf("读取标准输入出错：%s", err)
+			os.Exit(1)
+		}
+		// 判断是否一次就将整行读取，如果是，则跳出当前循环读取下一行
+		if !isPrefix {
+			sb.WriteString(string(line) + "\n")
+			continue
+		}
+		// 读取一行中剩余的部分
+		tmp := []byte{}
+		for isPrefix {
+			tmp, isPrefix, err = buff.ReadLine()
+			if err != nil {
+				fmt.Printf("读取标准输入出错：%s", err)
+				os.Exit(1)
+			}
+			line = append(line, tmp...)
+		}
+		sb.WriteString(string(line) + "\n")
 	}
-    // 存在一个 bug ，当单行的内容超过缓冲区的限制，会 panic 。
-	if err := scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "读取标准输入出错：", err)
-	}
-	// 去掉从标准输入读取字符串时多出的一个空行
-	// 换行符\n在字符串中只占一个长度
+
 	return sb.String()[0:(sb.Len() - 1)]
 }
